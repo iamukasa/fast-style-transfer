@@ -64,6 +64,14 @@ Use `style.py` to train a new style transfer network. Run `python style.py` to v
       --content-weight 1.5e1 \
       --checkpoint-iterations 1000 \
       --batch-size 20
+      
+      python style.py --style /home/iamukasa/PythonProjects/fast-style-transfer/examples/style/the_shipwreck_of_the_minotaur.jpg \
+      --checkpoint-dir checkpoint/path \
+      --test path/to/test/img.jpg \
+      --test-dir path/to/test/dir \
+      --content-weight 1.5e1 \
+      --checkpoint-iterations 1000 \
+      --batch-size 20
 
 ### Evaluating Style Transfer Networks
 Use `evaluate.py` to evaluate a style transfer network. Run `python evaluate.py` to view all the possible parameters. Evaluation takes 100 ms per frame (when batch size is 1) on a Maxwell Titan X. [More detailed documentation here](docs.md#evaluate). Takes several seconds per frame on a CPU. **Models for evaluation are [located here](https://drive.google.com/drive/folders/0B9jhaT37ydSyRk9UX0wwX3BpMzQ?usp=sharing)**. Example usage:

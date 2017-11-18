@@ -15,21 +15,25 @@ LEARNING_RATE = 1e-3
 NUM_EPOCHS = 2
 CHECKPOINT_DIR = 'checkpoints'
 CHECKPOINT_ITERATIONS = 2000
-VGG_PATH = 'data/imagenet-vgg-verydeep-19.mat'
+VGG_PATH = '/home/iamukasa/PythonProjects/fast-style-transfer/data/imagenet-vgg-verydeep-19.mat.4'
 TRAIN_PATH = 'data/train2014'
 BATCH_SIZE = 4
 DEVICE = '/gpu:0'
 FRAC_GPU = 1
 
+STYLE_PATH='/home/iamukasa/PythonProjects/fast-style-transfer/examples/style/la_muse.jpg'
+DIR_PATH='/home/iamukasa/PythonProjects/fast-style-transfer/checkpoints'
+
+
 def build_parser():
     parser = ArgumentParser()
     parser.add_argument('--checkpoint-dir', type=str,
-                        dest='checkpoint_dir', help='dir to save checkpoint in',
-                        metavar='CHECKPOINT_DIR', required=True)
+                        dest='CHECKPOINT_DIR', help='dir to save checkpoint in',
+                        metavar='CHECKPOINT_DIR', default='DIR_PATH')
 
     parser.add_argument('--style', type=str,
-                        dest='style', help='style image path',
-                        metavar='STYLE', required=True)
+                        dest=STYLE_PATH, help='style image path',
+                        metavar='STYLE', default=STYLE_PATH)
 
     parser.add_argument('--train-path', type=str,
                         dest='train_path', help='path to training images folder',
@@ -112,9 +116,9 @@ def _get_files(img_dir):
 def main():
     parser = build_parser()
     options = parser.parse_args()
-    check_opts(options)
+    # check_opts(options)
 
-    style_target = get_img(options.style)
+    style_target = get_img(STYLE_PATH)
     if not options.slow:
         content_targets = _get_files(options.train_path)
     elif options.test:
@@ -125,7 +129,7 @@ def main():
         "epochs":options.epochs,
         "print_iterations":options.checkpoint_iterations,
         "batch_size":options.batch_size,
-        "save_path":os.path.join(options.checkpoint_dir,'fns.ckpt'),
+        "save_path":os.path.join(DIR_PATH,'fns.ckpt'),
         "learning_rate":options.learning_rate
     }
 
