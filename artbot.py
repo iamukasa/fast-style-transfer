@@ -18,20 +18,27 @@ auth.set_access_token(access_token, access_token_secret)
 api = tweepy.API(auth)
 
 
+
 B="@shtaki_ke"
-new_tweets = api.mentions_timeline(screen_name =B,count=200)
 
-# list of specific strings we want to check for in Tweets
+class MyStreamListener(tweepy.StreamListener):
+
+    def on_status(self, s):
+        sn = s.user.screen_name
+        pic = s.media
+
+        if 'media' in s.entities:
+            for image in s.entities['media']:
+                output = getstyled(image['media_url'])
+                m = "Here is your photo turned art"
+                s = api.update_with_media(output,m, s.id)
+
+    def on_error(self, status_code):
+        if status_code == 420:
+            # returning False in on_data disconnects the stream
+            return False
 
 
-for s in new_tweets:
-
-            sn = s.user.screen_name
-            pic=s.media
-            if pic !=0:
-                output=getstyled(pic)
-                m="Here is your photo turned art"
-                s = api.update_with_media(output, s.id)
-
-
-
+myStreamListener = MyStreamListener()
+myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener())
+myStream.filter(track=[B])
